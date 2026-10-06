@@ -40,8 +40,10 @@ Run the executable on your target environment:
 ./ps5-download-manager.elf --debug
 ```
 
-Once running, access the Web UI from any device on your local network:
-`http://<PS5-IP-ADDRESS>:8080`
+Once running, the built-in web server operates on **port 8080**.
+
+- **For local access (testing on PC/Mac):** Open `http://localhost:8080` in your browser.
+- **For remote access (running on PS5):** Open `http://<PS5-IP-ADDRESS>:8080` from any device on the same local network.
 
 ### Link Grabber
 1. Navigate to the **Downloads** tab.
