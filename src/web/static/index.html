@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS5 Download Manager</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-card">
+            <h1>PS5 Download Manager</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" value="admin" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn primary full-width">Login</button>
+                <div id="loginError" class="error-text"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appScreen" class="screen">
+        <div class="app-container">
+            <aside class="sidebar">
+                <div class="brand">
+                    <h1>PS5 IDM</h1>
+                    <div class="status-indicator" id="connectionStatus">
+                        <div class="dot"></div>
+                        <span class="status-text">Disconnected</span>
+                    </div>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#downloads" class="nav-item active" data-target="downloadsView">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Downloads
+                    </a>
+                    <a href="#archives" class="nav-item" data-target="archivesView">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        Archives
+                    </a>
+                    <a href="#files" class="nav-item" data-target="filesView">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                        Files
+                    </a>
+                    <a href="#history" class="nav-item" data-target="historyView">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        History
+                    </a>
+                    <a href="#settings" class="nav-item" data-target="settingsView">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        Settings
+                    </a>
+                </nav>
+            </aside>
+            <main class="main-content">
+            <!-- Downloads View -->
+            <div id="downloadsView" class="view active">
+                <div class="view-header">
+                    <h2>Active Downloads</h2>
+                    <div class="actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button id="addDownloadBtn" class="btn primary">+ Add URL</button>
+                        <button id="linkGrabberBtn" class="btn primary" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🔗 Link Grabber</button>
+                        <button id="pauseAllBtn" class="btn secondary">Pause All</button>
+                        <button id="resumeAllBtn" class="btn secondary">Resume All</button>
+                    </div>
+                </div>
+                <div id="downloadList" class="card-list">
+                    <!-- Download items populated via JS -->
+                </div>
+            </div>
+
+            <!-- Archives View -->
+            <div id="archivesView" class="view">
+                <div class="view-header">
+                    <h2>Archives</h2>
+                    <button class="btn secondary">Scan Folder</button>
+                </div>
+                <div id="archiveList" class="card-list"></div>
+            </div>
+
+            <!-- Files View -->
+            <div id="filesView" class="view">
+                <div class="view-header">
+                    <h2>File Manager</h2>
+                </div>
+                <div class="file-browser">
+                    <div class="path-bar" id="currentPath">/data/downloads/</div>
+                    <div id="fileList" class="file-list"></div>
+                </div>
+            </div>
+
+            <!-- Settings View -->
+            <div id="settingsView" class="view">
+                <div class="view-header">
+                    <h2>Settings</h2>
+                </div>
+                <div class="settings-grid">
+                    <div class="card">
+                        <h3>Storage</h3>
+                        <div class="form-group">
+                            <label>Download Location</label>
+                            <div class="input-group">
+                                <input type="text" id="settingDownloadDir" value="/data/downloads">
+                                <button class="btn secondary">Browse</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Extraction Location</label>
+                            <div class="input-group">
+                                <input type="text" id="settingExtractDir" value="/data/extracted">
+                                <button class="btn secondary">Browse</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Network</h3>
+                        <div class="form-group">
+                            <label>Default Connections</label>
+                            <input type="number" id="settingConnections" value="8">
+                        </div>
+                        <div class="form-group">
+                            <label>Speed Limit (MB/s, 0 = unlimited)</label>
+                            <input type="number" id="settingSpeedLimit" value="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button id="saveSettingsBtn" class="btn primary">Save Changes</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Mobile Bottom Nav -->
+        <nav class="mobile-nav">
+            <a href="#downloads" class="nav-item active" data-target="downloadsView">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Downloads</span>
+            </a>
+            <a href="#archives" class="nav-item" data-target="archivesView">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                <span>Archives</span>
+            </a>
+            <a href="#files" class="nav-item" data-target="filesView">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                <span>Files</span>
+            </a>
+            <a href="#history" class="nav-item" data-target="historyView">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>History</span>
+            </a>
+            <a href="#settings" class="nav-item" data-target="settingsView">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Settings</span>
+            </a>
+        </nav>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Download</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>URL (One per line)</label>
+                    <textarea id="addUrlInput" rows="5" placeholder="https://..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Save Location</label>
+                    <input type="text" id="addLocationInput" value="/data/downloads">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary close-modal">Cancel</button>
+                <button id="startDownloadBtn" class="btn primary">Start Download</button>
+            </div>
+        </div>
+    </div>
+    <!-- Password Modal for Archives -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔒 Archive Password</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">This archive may be password-protected. Enter the password below, or leave blank if it is not encrypted.</p>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="archivePasswordInput" placeholder="Enter archive password...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary close-modal">Cancel</button>
+                <button id="confirmExtractBtn" class="btn primary">Extract</button>
+            </div>
+        </div>
+    </div>
+    <!-- Link Grabber Modal -->
+    <div id="linkGrabberModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3>🔗 Link Grabber</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Paste a file server or index page URL. The app will fetch the page and find all downloadable file links.</p>
+                <div class="form-group">
+                    <label>Page URL</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="grabPageUrl" placeholder="https://fileserver.example.com/files/" style="flex: 1;">
+                        <button id="grabLinksBtn" class="btn primary">Scan</button>
+                    </div>
+                </div>
+                <div id="grabStatus" style="display: none; padding: 12px; border-radius: 8px; background: rgba(255,255,255,0.05); margin-bottom: 1rem;">
+                    <span id="grabStatusText">Scanning...</span>
+                </div>
+                <div id="grabbedLinksContainer" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <label id="grabbedLinksCount" style="font-weight: 600;"></label>
+                        <div style="display: flex; gap: 8px;">
+                            <button id="selectAllGrabbed" class="btn secondary" style="font-size: 0.8rem; padding: 4px 10px;">Select All</button>
+                            <button id="deselectAllGrabbed" class="btn secondary" style="font-size: 0.8rem; padding: 4px 10px;">Deselect All</button>
+                        </div>
+                    </div>
+                    <div id="grabbedLinksList" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--card-border); border-radius: 8px; padding: 8px;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary close-modal">Cancel</button>
+                <button id="downloadGrabbedBtn" class="btn primary" disabled>Download Selected</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
